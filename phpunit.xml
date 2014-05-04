@@ -1,18 +1,22 @@
 <phpunit
-	bootstrap="bootstrap.php"
+	bootstrap="tests/bootstrap.php"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	strict="true">
 
 	<testsuite>
-		<directory>./lib</directory>
+		<directory>./tests/lib</directory>
 	</testsuite>
 
 	<filter>
 		<whitelist>
-			<directory suffix=".php">../lib</directory>
+			<directory suffix=".php">lib</directory>
 		</whitelist>
 	</filter>
+
+	<logging>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
+	</logging>
 
 </phpunit>
