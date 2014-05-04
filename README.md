@@ -7,7 +7,7 @@ Codify PHP
 [![Latest Unstable Version](https://poser.pugx.org/ralouphie/codify/v/unstable.png)](https://packagist.org/packages/ralouphie/codify)
 [![License](https://poser.pugx.org/ralouphie/codify/license.png)](https://packagist.org/packages/ralouphie/codify)
 
-A simple PHP package for compiling and autoloading generated PHP files. It's useful when writing frameworks that generate and save code on-the-fly.
+A simple PHP package for saving and autoloading generated PHP files. It's useful when writing frameworks that generate and save code on the fly.
 
 ## Usage
 
