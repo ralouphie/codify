@@ -10,7 +10,8 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dir = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/../../codify-php-test-filesystem/');
+        $this->dir =
+            dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'codify-php-test-filesystem' . DIRECTORY_SEPARATOR;
         $this->namespace = 'CodifyTest\\BaseNamespaceFileSystem';
         $this->namespace_dir =
             $this->dir . str_replace('\\', DIRECTORY_SEPARATOR, $this->namespace);
