@@ -52,7 +52,7 @@ $compiled_store = new CompiledStore($store, function ($class) {
     return $code_generated;
 });
 
-$autoloader = new \Codify\Autoloader($store);
+$autoloader = new \Codify\Autoloader($compiled_store);
 $autoloader->register();
 
 
