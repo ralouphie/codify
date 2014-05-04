@@ -11,6 +11,15 @@
 
 namespace Codify\Stores;
 
+/**
+ * This file is a part of Codify PHP.
+ *
+ * (c) 2014 Ralph Khattar
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Codify\Store;
 
 /**
