@@ -6,12 +6,12 @@
 	strict="true">
 
 	<testsuite>
-		<directory>./tests/lib</directory>
+		<directory>./tests/src</directory>
 	</testsuite>
 
 	<filter>
 		<whitelist>
-			<directory suffix=".php">lib</directory>
+			<directory suffix=".php">src</directory>
 		</whitelist>
 	</filter>
 
