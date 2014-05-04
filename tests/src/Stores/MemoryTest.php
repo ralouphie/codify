@@ -18,9 +18,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->store->save(
             $class,
             "namespace " . $this->namespace . ";\n" .
-            "class Foo {\n" .
-            "    public function action() { return 'foo'; }\n" .
-            "}"
+            "class Foo { public function action() { return 'foo'; } }"
         ));
         $this->assertEquals(\Codify\StoreInterface::AUTOLOAD_SUCCESS, $this->store->autoload($class));
         $instance = new $class;
@@ -42,9 +40,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->store->save(
             $class,
             "namespace " . $this->namespace . ";\n" .
-            "class Baz {\n" .
-            "    public function action() { return 'baz'; }\n" .
-            "}"
+            "class Baz { public function action() { return 'baz'; } }"
         ));
         $this->assertEquals(\Codify\StoreInterface::AUTOLOAD_SUCCESS, $this->store->autoload($class));
         $instance = new $class;
