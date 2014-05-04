@@ -71,19 +71,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $instance->action());
     }
 
-    /**
-     * @expectedException PHPUnit_Framework_Error_Warning
-     */
-    function testSaveFailed()
-    {
-        $path = $this->namespace_dir;
-        mkdir($path, 0777, true);
-        $path .= DIRECTORY_SEPARATOR . 'No';
-        file_put_contents($path, 'No');
-        $class = $this->namespace . '\\No\\A';
-        $this->store->save($class, '<?php ');
-    }
-
     function testAutoloadNotFound()
     {
         $this->assertEquals(
