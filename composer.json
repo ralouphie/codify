@@ -1,6 +1,6 @@
 {
     "name": "ralouphie/codify",
-    "description": "A simple PHP library for compiling and autoloading generated PHP files.",
+    "description": "A simple PHP package for saving and autoloading generated PHP files.",
     "license": "MIT",
     "authors": [
         {
