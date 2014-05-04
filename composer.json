@@ -1,0 +1,14 @@
+{
+    "name": "ralouphie/codify",
+    "description": "A simple PHP library for compiling and autoloading generated PHP files.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ralph Khattar",
+            "email": "ralph.khattar@gmail.com"
+        }
+    ],
+    "require": {
+			"php": "~5.4.0"
+    }
+}
