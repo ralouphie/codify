@@ -57,13 +57,14 @@ class Filesystem extends Store
     {
         $path = $this->getFilePath($class);
         $last_slash = strrpos($path, DIRECTORY_SEPARATOR);
+        $file_saved = false;
         if ($last_slash !== false) {
             $dir = substr($path, 0, $last_slash);
             if (mkdir($dir, $this->create_mode, true)) {
-                return file_put_contents($path, '<?php' . PHP_EOL . $code, LOCK_EX) > 0;
+                $file_saved = file_put_contents($path, '<?php' . PHP_EOL . $code, LOCK_EX) > 0;
             }
         }
-        return false;
+        return $file_saved;
     }
 
     /**

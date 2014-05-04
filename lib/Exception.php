@@ -16,6 +16,8 @@ namespace Codify;
  */
 class Exception extends \Exception
 {
+    const CLASS_NOT_IN_NAMESPACE = 1;
+
     /**
      * @inheritdoc
      */

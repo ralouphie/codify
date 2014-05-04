@@ -41,7 +41,12 @@ class Autoloader
      */
     public function register($throw = false, $prepend = false)
     {
-        return !$this->registered && spl_autoload_register([$this, 'autoload'], $throw, $prepend);
+        if ($this->registered) {
+            return false;
+        }
+        spl_autoload_register([$this, 'autoload'], $throw, $prepend);
+        $this->registered = true;
+        return true;
     }
 
     /**
@@ -51,7 +56,12 @@ class Autoloader
      */
     public function unregister()
     {
-        return $this->registered && spl_autoload_unregister([$this, 'autoload']);
+        if (!$this->registered) {
+            return false;
+        }
+        spl_autoload_unregister([$this, 'autoload']);
+        $this->registered = false;
+        return true;
     }
 
     /**
@@ -64,5 +74,15 @@ class Autoloader
     public function autoload($class)
     {
         return $this->store->autoload($class) === StoreInterface::AUTOLOAD_SUCCESS;
+    }
+
+    /**
+     * Get the underlying code store.
+     *
+     * @return StoreInterface The underlying code store for this autoloader.
+     */
+    public function getStore()
+    {
+        return $this->store;
     }
 }

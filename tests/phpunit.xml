@@ -1,0 +1,18 @@
+<phpunit
+	bootstrap="bootstrap.php"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	strict="true">
+
+	<testsuite>
+		<directory>./lib</directory>
+	</testsuite>
+
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../lib</directory>
+		</whitelist>
+	</filter>
+
+</phpunit>

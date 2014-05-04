@@ -50,7 +50,8 @@ abstract class Store implements StoreInterface
     {
         if (!$this->inBaseNamespace($class)) {
             throw new Exception(
-                'Cannot save class ' . $class . '. Not in namespace ' . $this->getBaseNamespace()
+                'Cannot save class ' . $class . '. Not in namespace ' . $this->getBaseNamespace(),
+                Exception::CLASS_NOT_IN_NAMESPACE
             );
         }
         return $this->saveImplementation($class, $code);
@@ -63,7 +64,8 @@ abstract class Store implements StoreInterface
     {
         if (!$this->inBaseNamespace($class)) {
             throw new Exception(
-                'Cannot remove class ' . $class . '. Not in namespace ' . $this->getBaseNamespace()
+                'Cannot remove class ' . $class . '. Not in namespace ' . $this->getBaseNamespace(),
+                Exception::CLASS_NOT_IN_NAMESPACE
             );
         }
         return $this->removeImplementation($class);
