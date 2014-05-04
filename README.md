@@ -42,6 +42,8 @@ $instance->foo(); // Outputs "foo".
 ```php
 <?php
 
+$store = new \Codify\Stores\Filesystem(/* ... */);
+
 // Create a compiled store that will generate code for missing classes
 // under the code store's namespace.
 $compiled_store = new CompiledStore($store, function ($class) {
@@ -49,6 +51,10 @@ $compiled_store = new CompiledStore($store, function ($class) {
     // Generate code.
     return $code_generated;
 });
+
+$autoloader = new \Codify\Autoloader($store);
+$autoloader->register();
+
 
 $missing_class = 'Some\\Name\\Space\\Bar';
 
