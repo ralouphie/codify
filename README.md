@@ -1,4 +1,4 @@
-codify
-======
+Codify PHP
+==========
 
-A simple PHP library for compiling and autoloading generated PHP files.
+A simple PHP package for compiling and autoloading generated PHP files.
