@@ -12,6 +12,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $this->dir =
             dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'codify-php-test-filesystem' . DIRECTORY_SEPARATOR;
+        $this->chmodRecursive($this->dir, 0777);
         $this->namespace = 'CodifyTest\\BaseNamespaceFileSystem';
         $this->namespace_dir =
             $this->dir . str_replace('\\', DIRECTORY_SEPARATOR, $this->namespace);
@@ -24,8 +25,25 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $this->removeDirRecursive($this->dir);
     }
 
+    protected function chmodRecursive($path, $mode)
+    {
+        $path = rtrim($path, DIRECTORY_SEPARATOR);
+        @chmod($path, $mode);
+        if (is_dir($path)) {
+            if ($handle = opendir($path)) {
+                while (false !== ($entry = readdir($handle))) {
+                    if ($entry != '.' && $entry != '..') {
+                        $this->chmodRecursive($path . DIRECTORY_SEPARATOR . $entry, $mode);
+                    }
+                }
+                closedir($handle);
+            }
+        }
+    }
+
     protected function removeDirRecursive($dir)
     {
+        $this->chmodRecursive($dir, 0777);
         if (is_dir($dir)) {
             foreach (
                 new RecursiveIteratorIterator(
@@ -67,6 +85,39 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $instance = new $class;
         $this->assertInstanceOf($class, $instance);
         $this->assertEquals('foo', $instance->action());
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessageRegExp /Unable to create the directory/
+     */
+    function testSaveNoPermission()
+    {
+        $class = $this->namespace . '\\Foo';
+        @mkdir($this->dir, 0000, true);
+        @chmod($this->dir, 0000);
+        $this->assertFalse($this->store->save(
+          $class,
+          "namespace " . $this->namespace . ";\n" .
+          "class Foo { public function action() { return 'foo'; } }"
+        ));
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessageRegExp /Unable to write to directory/
+     */
+    function testSaveNotWritable()
+    {
+        $class = $this->namespace . '\\Foo';
+        $dir = $this->dir . str_replace('\\', DIRECTORY_SEPARATOR, $this->namespace);
+        @mkdir($dir, 0777, true);
+        @chmod($dir, 0000);
+        $this->assertFalse($this->store->save(
+          $class,
+          "namespace " . $this->namespace . ";\n" .
+          "class Foo { public function action() { return 'foo'; } }"
+        ));
     }
 
     function testAutoloadNotFound()

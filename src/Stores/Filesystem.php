@@ -55,16 +55,29 @@ class Filesystem extends Store
      */
     protected function saveImplementation($class, $code)
     {
+        $saved = false;
         $path = $this->getFilePath($class);
         $last_slash = strrpos($path, DIRECTORY_SEPARATOR);
-        $file_saved = false;
         if ($last_slash !== false) {
             $dir = substr($path, 0, $last_slash);
-            if (mkdir($dir, $this->create_mode, true)) {
-                $file_saved = file_put_contents($path, '<?php' . PHP_EOL . $code, LOCK_EX) > 0;
+
+            if (!is_dir($dir)) {
+                if (false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
+                    throw new \RuntimeException("Unable to create the directory ($dir).");
+                }
+            } elseif (!is_writable($dir)) {
+                throw new \RuntimeException("Unable to write to directory ($dir).");
+            }
+
+            $content = '<?php' . PHP_EOL . $code;
+            $temp = tempnam($dir, basename($path));
+            if (false !== @file_put_contents($temp, $content) && @rename($temp, $path)) {
+                @chmod($path, 0666 & ~umask());
+                $this->invalidateCache($path);
+                $saved = true;
             }
         }
-        return $file_saved;
+        return $saved;
     }
 
     /**
@@ -97,5 +110,14 @@ class Filesystem extends Store
     public function getFilePath($class)
     {
         return $this->base_directory . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+    }
+
+    /**
+     * @param string $path The PHP file to invalidate.
+     */
+    protected function invalidateCache($path)
+    {
+        function_exists('opcache_invalidate') && opcache_invalidate($path, true);
+        function_exists('apc_compile_file') && apc_compile_file($path);
     }
 }
